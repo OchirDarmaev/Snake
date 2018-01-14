@@ -14,7 +14,8 @@ namespace SnakeGame
         Barrier,
         Wall,
         EmptySpace,
-        Way
+        Way,
+        PosibleWay
 
     }
 

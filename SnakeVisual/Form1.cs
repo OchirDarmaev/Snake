@@ -232,11 +232,22 @@ namespace SnakeVisual
         {
             Graphics graphics = e.Graphics;
             List<SnakeGame.Point> points = GetAllPoints();
+            
+            if (shortWays!= null)
+                foreach (var item in shortWays)
+                {
+                foreach (var item2 in item)
+                {
+                    points.Add(new SnakeGame.Point(item2.X, item2.Y, Figures.PosibleWay));
+                }
+                }
             if (shortestWay != null)
                 foreach (var item in shortestWay)
                 {
                     points.Add(new SnakeGame.Point(item.X, item.Y, Figures.Way));
                 }
+
+
             int size = 15;
             foreach (var item in points)
             {
@@ -256,6 +267,8 @@ namespace SnakeVisual
                         graphics.FillEllipse(Brushes.OrangeRed, item.X * size + 2, item.Y * size + 2, size - 4, size - 4); break;
                     case Figures.Way:
                         graphics.FillEllipse(Brushes.Red, item.X * size + 4, item.Y * size + 4, size - 8, size - 8); break;
+                    case Figures.PosibleWay:
+                        graphics.FillEllipse(Brushes.Gray, item.X * size + 4, item.Y * size + 4, size - 8, size - 8); break;
                     case Figures.EmptySpace:
                         break;
                 }
