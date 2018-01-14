@@ -36,6 +36,14 @@ namespace SnakeGame
                 points.Add(new Point(_width, i, Figures.Wall));
             }
             points.Add(new Point(_width, _height, Figures.Wall));
+            for (int i = 1; i < _height; i++)
+            {
+                for (int j = 1; j < _width; j++)
+                {
+                    if (points.Find(x=>x.X==i&&x.Y==j) == null)
+                        points.Add(new Point(i, j, Figures.EmptySpace));
+                }
+            }
         }
 
         public void ChangeDirection(Directions direction)

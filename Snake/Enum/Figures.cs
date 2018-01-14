@@ -13,7 +13,9 @@ namespace SnakeGame
         Food,
         Barrier,
         Wall,
-        EmptySpace
+        EmptySpace,
+        Way
+
     }
 
 }

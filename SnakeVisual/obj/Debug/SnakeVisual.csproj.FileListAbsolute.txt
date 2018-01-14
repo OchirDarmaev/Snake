@@ -1,0 +1,12 @@
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\bin\Debug\SnakeVisual.exe.config
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\bin\Debug\SnakeVisual.exe
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\bin\Debug\SnakeVisual.pdb
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\bin\Debug\SnakeGame.dll
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\bin\Debug\SnakeGame.pdb
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\obj\Debug\SnakeVisual.csprojResolveAssemblyReference.cache
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\obj\Debug\SnakeVisual.Form1.resources
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\obj\Debug\SnakeVisual.Properties.Resources.resources
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\obj\Debug\SnakeVisual.csproj.GenerateResource.Cache
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\obj\Debug\SnakeVisual.csproj.CoreCompileInputs.cache
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\obj\Debug\SnakeVisual.exe
+C:\Users\ochir\source\Repos\Snake\SnakeVisual\obj\Debug\SnakeVisual.pdb

@@ -1,0 +1,6 @@
+C:\Users\ochir\Source\Repos\Snake\Snake\bin\Debug\SnakeGame.dll
+C:\Users\ochir\Source\Repos\Snake\Snake\bin\Debug\SnakeGame.pdb
+C:\Users\ochir\Source\Repos\Snake\Snake\obj\Debug\SnakeGame.csprojResolveAssemblyReference.cache
+C:\Users\ochir\Source\Repos\Snake\Snake\obj\Debug\SnakeGame.csproj.CoreCompileInputs.cache
+C:\Users\ochir\Source\Repos\Snake\Snake\obj\Debug\SnakeGame.dll
+C:\Users\ochir\Source\Repos\Snake\Snake\obj\Debug\SnakeGame.pdb
