@@ -17,12 +17,11 @@ namespace SnakeGame
             points = new List<Point>();
             Create();
         }
-        public void Create()
+        public void Create(int x=0,int y=0)
         {
             points.Clear();
             Random rand = new Random(unchecked((int)DateTime.Now.Millisecond));
-            int x;
-            int y;
+            if (x==0 && y==0)
             do
             {
                 x = rand.Next(_width);

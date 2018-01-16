@@ -78,7 +78,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelInfo);
             this.Controls.Add(this.label1);
-            this.DoubleBuffered = true;
             this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";

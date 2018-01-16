@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SnakeGame
 {
-    public class Snake : FigureBase
+    internal class Snake : FigureBase
     {
         public Directions _direction;
         public int _lenght;
@@ -92,6 +92,8 @@ namespace SnakeGame
             bool hitTheBarrier = false;
 
             // TODO учесть GameMod
+
+            // Врежется в стену или в свое тело
             foreach (var point in points)
             {
                 confused = (point.X == x && point.Y == y);
@@ -99,12 +101,15 @@ namespace SnakeGame
                 if (confused || hitTheWall)
                     break;
             }
+            // Врежется в барьер
             foreach (var point in _barrier.points)
             {
                 hitTheBarrier = (x == point.X) && (y == point.Y);
                 if (hitTheBarrier)
                     break;
             }
+
+            // Сьест еду
             if (food.X == x && food.Y == y)
             {
                 food = null;
