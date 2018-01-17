@@ -144,7 +144,10 @@ namespace SnakeGame
         {
             //TODO 1.проноз как выйти из тупика
             //TODO 2. получить путь выхода
-            throw new NotImplementedException("Нет реализации поиска выхода из тупика");
+            //
+            AutoPilot = false;
+            return null;
+            //throw new NotImplementedException("Нет реализации поиска выхода из тупика");
         }
 
         /// <summary>
@@ -162,6 +165,7 @@ namespace SnakeGame
 
         private List<Point> FindShortestWay()
         {
+            //TODO предупредить попадание в тупик, в петлю
             _shortWays = new List<List<Point>>();
             _mainWay = new List<Point>();
             var points = GetAllPoints();
@@ -190,6 +194,9 @@ namespace SnakeGame
 
 
             var headPoint = points.Find(x => x.Figure == Figures.Head);
+            // Нет головы
+            if (headPoint == null)
+                return null;
             var firstWay = new List<Point>
             {
                 headPoint
@@ -201,8 +208,7 @@ namespace SnakeGame
             //TODO вычислить сколько проходов надо
             //TODO не делать перебор всех возможных путей.
             //самый короткий путь ведь можно просчитать по формуле
-            int maxSteps = _height + _width;
-
+            int maxSteps = _height + _width+_snake.points.Count+_barrier.points.Count;
             for (int i = 0; i < maxSteps; i++)
             {
                 var PossibleWaysBuffer = new List<List<Point>>();
@@ -229,7 +235,8 @@ namespace SnakeGame
                 {
                     possibleWays.Add(item);
                 }
-
+                // Оптимизация поиска
+                if (_shortWays.Count > 2) break;
             }
             if (_shortWays.Count != 0)
             {
