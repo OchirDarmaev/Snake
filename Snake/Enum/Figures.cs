@@ -7,16 +7,15 @@ namespace SnakeGame
 {
     public enum Figures
     {
-        Head,
-        Body,
-        Tail,
+        EmptySpace,
+        PosibleWay,
+        Way,
         Food,
         Barrier,
         Wall,
-        EmptySpace,
-        Way,
-        PosibleWay
-
+        Head,
+        Body,
+        Tail
     }
 
 }
