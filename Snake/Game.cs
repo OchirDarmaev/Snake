@@ -18,7 +18,7 @@ namespace SnakeGame
         private List<List<Point>> _shortWays;
         private List<Point> _mainWay;
         public bool AutoPilot { get; set; } = false;
-        public int Size { get => _snake.points.Count; }
+        public int Size { get { return _snake.points.Count; } }
 
         public Game()
         {

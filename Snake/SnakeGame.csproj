@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,7 +45,7 @@
     <Compile Include="Enum\Figures.cs" />
     <Compile Include="Enum\GameMode.cs" />
     <Compile Include="Enum\SpeedGame.cs" />
-    <Compile Include="Figure.cs" />
+    <Compile Include="FigureBase.cs" />
     <Compile Include="Food.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Point.cs" />
