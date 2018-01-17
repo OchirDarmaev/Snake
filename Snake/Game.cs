@@ -20,6 +20,8 @@ namespace SnakeGame
         public bool AutoPilot { get; set; } = false;
         public int Size { get { return _snake.points.Count; } }
 
+        public int FoodCount { get; private set; }
+
         public Game()
         {
         }
@@ -27,7 +29,7 @@ namespace SnakeGame
         public void Start()
         {
             points = new List<Point>();
-            _food = new Food(_width, _height);
+            _food = new Food(_width,_height);
             for (int i = 0; i < _width; i++)
             {
                 points.Add(new Point(i, 0, Figures.Wall));
@@ -41,7 +43,7 @@ namespace SnakeGame
             points.Add(new Point(_width, _height, Figures.Wall));
             for (int i = 1; i < _width - 1; i++)
             {
-                for (int j = 1; j < _height-1; j++)
+                for (int j = 1; j < _height - 1; j++)
                 {
                     if (points.Find(x => x.X == i && x.Y == j) == null)
                         points.Add(new Point(i, j, Figures.EmptySpace));
@@ -57,24 +59,26 @@ namespace SnakeGame
         public bool Move()
         {
             bool res;
-            Point var = _food.GetPoint();
-            res = _snake.Move(ref var);
-            if (var == null)
+            var foodPoint = _food.points;
+            res = _snake.Move(ref foodPoint);
+            // Добавление еды на карту
+            if (foodPoint.Count < FoodCount)
             {
-                //Не срабатывает
-                Random rand = new Random(unchecked((int)DateTime.Now.Millisecond));
-                int x;
-                int y;
-                var points = GetAllPoints();
-                do
+                for (int i = 0; i < FoodCount - foodPoint.Count; i++)
                 {
-                    x = rand.Next(_width);
-                    y = rand.Next(_height);
-                } while (points.Exists(p => p.X == x && p.Y == y && p.Figure != Figures.EmptySpace));
-                _food.Create(x, y);
-
+                    Random rand = new Random(unchecked((int)DateTime.Now.Millisecond));
+                    int x;
+                    int y;
+                    var points = GetAllPoints();
+                    do
+                    {
+                        x = rand.Next(_width);
+                        y = rand.Next(_height);
+                    } while (points.Exists(p => p.X == x && p.Y == y && p.Figure != Figures.EmptySpace));
+                    _food.AddFood(x, y);
+                }
             }
-            
+
             if (AutoPilot)
             {
                 AutoFindWay();
@@ -108,12 +112,28 @@ namespace SnakeGame
             if (level == 0)
             {
                 _barrier = new Barrier();
-                _barrier.AddBarrier(3, 1);
-                _barrier.AddBarrier(3, 2);
-                _barrier.AddBarrier(3, 3);
 
+                int x = 3;
+                int y = 4;
+                int z = 15;
+                AddBarrier(x, y);
+                AddBarrier(x+z, y);
+                AddBarrier(x, y+z-y);
+                AddBarrier(x+z, y+z-y);
+                FoodCount = 3;
                 EditSittings(GameMode.HitWall, SpeedGame.Normal, 30, 25);
                 _snake = new Snake(5, _width, _height, Directions.Right, _gameMode, _barrier);
+            }
+        }
+
+        private void AddBarrier(int x, int y, int dlina = 8)
+        {
+            for (int j = x; j < x+dlina ; j += 3)
+            {
+                for (int i = y; i < y+dlina; i++)
+                {
+                    _barrier.AddBarrier(j, i);
+                }
             }
         }
 
@@ -138,13 +158,12 @@ namespace SnakeGame
                 _mainWay = FindWayOutImpasse();
             if (_mainWay != null)
                 TurnToPoint(_mainWay[1]);
-         }
+        }
 
         private List<Point> FindWayOutImpasse()
         {
             //TODO 1.проноз как выйти из тупика
             //TODO 2. получить путь выхода
-            //
             AutoPilot = false;
             return null;
             //throw new NotImplementedException("Нет реализации поиска выхода из тупика");
@@ -170,28 +189,24 @@ namespace SnakeGame
             _mainWay = new List<Point>();
             var points = GetAllPoints();
 
-            // 0 EmptySpace
-            // -1 Wall , Barriers, Snake
-            // 2 target
 
             //TODO расчитать оптимальный размер для поля точек
-            int[,] simplePoints = new int[_width+5 , _height+5];
+            int[,] simplePoints = new int[_width + 5, _height + 5];
             bool food = false;
-          
+
             foreach (var item in points)
             {
-                
+
                 switch (item.Figure)
                 {
-                    case Figures.EmptySpace: simplePoints[item.X, item.Y] = 0; break;
-                    case Figures.Food: simplePoints[item.X, item.Y] = 2; food = true; break;
+                    case Figures.EmptySpace: simplePoints[item.X, item.Y] = (int)Figures.EmptySpace; break;
+                    case Figures.Food: simplePoints[item.X, item.Y] = (int)Figures.Food; food = true; break;
                     default: simplePoints[item.X, item.Y] = -1; break;
                 }
             }
             // Нет цели - нет пути
             if (!food)
                 return null;
-
 
             var headPoint = points.Find(x => x.Figure == Figures.Head);
             // Нет головы
@@ -208,7 +223,7 @@ namespace SnakeGame
             //TODO вычислить сколько проходов надо
             //TODO не делать перебор всех возможных путей.
             //самый короткий путь ведь можно просчитать по формуле
-            int maxSteps = _height + _width+_snake.points.Count+_barrier.points.Count;
+            int maxSteps = _height + _width + _snake.points.Count + _barrier.points.Count;
             for (int i = 0; i < maxSteps; i++)
             {
                 var PossibleWaysBuffer = new List<List<Point>>();
@@ -235,8 +250,9 @@ namespace SnakeGame
                 {
                     possibleWays.Add(item);
                 }
-                // Оптимизация поиска
-                if (_shortWays.Count > 2) break;
+                // уменьшение количества путей
+                // так как после поиска их становится больше 1000 и сильно влияет на производительность
+                if (_shortWays.Count > 0) break;
             }
             if (_shortWays.Count != 0)
             {
@@ -248,7 +264,7 @@ namespace SnakeGame
                 }
                 for (int i = 0; i < shortestWay.Count; i++)
                 {
-                    if(shortestWay[i].Figure == Figures.PosibleWay)
+                    if (shortestWay[i].Figure == Figures.PosibleWay)
                         shortestWay[i].Figure = Figures.Way;
                 }
                 return shortestWay;
@@ -261,7 +277,7 @@ namespace SnakeGame
 
         {
             // Точка является целью
-            if (mas[x, y] == 2)
+            if (mas[x, y] == (int)Figures.Food)
             {
                 var wayBuffer = new List<Point>();
                 foreach (var item in way)
@@ -273,7 +289,7 @@ namespace SnakeGame
                 return 1;
             }
             // Точка является свободным местом
-            if (mas[x, y] == 0)
+            if (mas[x, y] == (int)Figures.EmptySpace)
             {
                 mas[x, y] = -2;
                 var wayBuffer = new List<Point>();

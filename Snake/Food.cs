@@ -15,11 +15,10 @@ namespace SnakeGame
             _width = x;
             _height = y;
             points = new List<Point>();
-            Create();
         }
-        public void Create(int x=0,int y=0)
+
+        public void AddFood(int x=0,int y=0)
         {
-            points.Clear();
             Random rand = new Random(unchecked((int)DateTime.Now.Millisecond));
             if (x==0 && y==0)
             do

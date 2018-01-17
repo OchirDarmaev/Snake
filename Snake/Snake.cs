@@ -51,9 +51,8 @@ namespace SnakeGame
 
         }
 
-        public bool Move(ref Point food)
+        public bool Move(ref List<Point> foodPoints)
         {
-            //todo поворот перед стеной делает не корректно
             if (points.Count == 0)
                 throw new Exception("Length of snake not be null ");
             int x = points.Last().X;
@@ -93,7 +92,7 @@ namespace SnakeGame
 
             // TODO учесть GameMod
 
-            // Врежется в стену или в свое тело
+            // Проверка. Врежется в стену или в свое тело
             foreach (var point in points)
             {
                 confused = (point.X == x && point.Y == y);
@@ -101,44 +100,47 @@ namespace SnakeGame
                 if (confused || hitTheWall)
                     break;
             }
-            // Врежется в барьер
+            // Проверка. Врежется в барьер
             foreach (var point in _barrier.points)
             {
                 hitTheBarrier = (x == point.X) && (y == point.Y);
                 if (hitTheBarrier)
                     break;
             }
-
-            // Сьест еду
-            if (food.X == x && food.Y == y)
+            // Проверка. Сьест еду. 
+            bool foodEated = false;
+            for (int i = 0; i < foodPoints.Count; i++)
             {
-                food = null;
-                points[0].Figure = Figures.Tail;
-                points.Last().Figure = Figures.Body;
+                // Поела, хвост не удаляется
+                if (foodPoints[i].X == x && foodPoints[i].Y == y)
+                {
+                    foodPoints.Remove(foodPoints[i]);
+                    points[0].Figure = Figures.Tail;
+                    points.Last().Figure = Figures.Body;
+                    foodEated = true;
+                }
+
             }
-            else
+            // Осталась голодной, хвост удаляется
+            if (!foodEated)
             {
                 points.RemoveAt(0);
                 points[0].Figure = Figures.Tail;
                 points.Last().Figure = Figures.Body;
             }
+
+            // Добавляем голову 
+            points.Add(new Point(x, y, Figures.Head));
+
             if (confused || hitTheWall || hitTheBarrier)
             {
-                // Добавляем голову чтобы знать куда она врезалась
-                points.Add(new Point(x, y, Figures.Head));
                 return false;
             }
             else
             {
-                points.Add(new Point(x, y, Figures.Head));
                 return true;
             }
 
-        }
-
-        public virtual void DrawBarriers()
-        {
-            throw new NotImplementedException();
         }
 
         public override void Draw()
