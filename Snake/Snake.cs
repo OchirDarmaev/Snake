@@ -124,6 +124,8 @@ namespace SnakeGame
             }
             if (confused || hitTheWall || hitTheBarrier)
             {
+                // Добавляем голову чтобы знать куда она врезалась
+                points.Add(new Point(x, y, Figures.Head));
                 return false;
             }
             else
