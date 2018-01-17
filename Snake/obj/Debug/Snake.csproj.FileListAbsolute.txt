@@ -1,5 +1,0 @@
-C:\Users\darmaev\Source\Repos\Snake\Snake\bin\Debug\Snake.dll
-C:\Users\darmaev\Source\Repos\Snake\Snake\bin\Debug\Snake.pdb
-C:\Users\darmaev\Source\Repos\Snake\Snake\obj\Debug\Snake.csprojResolveAssemblyReference.cache
-C:\Users\darmaev\Source\Repos\Snake\Snake\obj\Debug\Snake.dll
-C:\Users\darmaev\Source\Repos\Snake\Snake\obj\Debug\Snake.pdb
